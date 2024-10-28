@@ -1,0 +1,27 @@
+---
+# We will use the script module to run a given script remotely
+# Module Documentation: https://docs.ansible.com/ansible/latest/collections/ansible/builtin/script_module.html
+
+- name: Main task block # Exception Handling: (Block, Rescue & Always) Similar to (Try, Catch)
+  block:
+    - name: Run the script 'test.py' # Ansible will automatically include this from files directory
+      ansible.builtin.script: test.py
+      args:
+        executable: python3
+      become: true
+      become_user: testuser # ec2-user will sudo switch to testuser and execute the script
+      register: script_output
+
+    - name: Debug script output
+      ansible.builtin.debug:
+        var: script_output.stdout_lines # check image in readme for output
+
+  rescue:
+    - name: Rescue task
+      ansible.builtin.debug:
+        msg: "The previous task failed. Placeholder for rescue."
+
+  always:
+    - name: Always task
+      ansible.builtin.debug:
+        msg: "This will always run. Placeholder for always."

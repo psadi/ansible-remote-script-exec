@@ -1,0 +1,8 @@
+---
+- name: Ansible Remote Script Execution
+  hosts: dev
+  gather_facts: false
+  any_errors_fatal: true
+  remote_user: ec2-user
+  roles:
+    - role: cmd
